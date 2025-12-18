@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+out/
+*.local
+
+# Electron-builder output
+release/
+
+# Logs
+*.log
+*.log.*
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor and IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Cache
+.eslintcache
+.cache/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Coverage
+coverage/
+
+# Vite
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# Package manager lock files (keep one, ignore others if switching)
+# Uncomment the ones you don't use:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
