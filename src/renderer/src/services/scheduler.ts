@@ -62,3 +62,53 @@ interface ScheduleResult {
   }>
   is_feasible: boolean
 }
+
+export async function generateSchedule(
+  courses: Course[],
+  _students: Student[],
+  enrollments: Enrollment[],
+  classrooms: Classroom[],
+  config: SchedulerConfig
+): Promise<ScheduleResult> {
+  const assignments: Assignment[] = []
+  const violations: Array<{ type: string; description: string; count: number }> = []
+
+  // Build enrollment map: course -> students
+  const courseStudents = new Map<number, Set<number>>()
+  enrollments.forEach((e) => {
+    if (!courseStudents.has(e.course_id)) {
+      courseStudents.set(e.course_id, new Set())
+    }
+    courseStudents.get(e.course_id)!.add(e.student_id)
+  })
+
+  // Calculate course sizes
+  const courseSizes = courses.map((c) => ({
+    course: c,
+    studentCount: courseStudents.get(c.id)?.size || 0
+  }))
+
+  // Sort courses based on optimization goals
+  if (config.optimization.place_difficult_early) {
+    // Difficult courses (more students) first
+    courseSizes.sort((a, b) => b.studentCount - a.studentCount)
+  } else if (config.optimization.place_difficult_late) {
+    // Easy courses (fewer students) first
+    courseSizes.sort((a, b) => a.studentCount - b.studentCount)
+  }
+
+  // Track assignments: "day-slot" -> course_id
+  const schedule = new Map<string, number>()
+
+  // Track student exams: student_id -> [{day, slot}]
+  const studentExams = new Map<number, Array<{ day: number; slot: number }>>()
+
+  // Track room usage: classroom_id -> count
+  const roomUsage = new Map<number, number>()
+
+  // Track days used
+  const daysUsed = new Set<number>()
+
+  let consecutiveViolations = 0
+  let threePerDayViolations = 0
+  let capacityViolations = 0
