@@ -1,0 +1,201 @@
+code,name
+CS101,Introduction to Computer Science
+CS102,Introduction to Computer Science
+CS201,Advanced Introduction to Computer Science
+CS202,Intermediate Computer Science
+CS301,Special Topics in Computer Science
+CS302,Advanced Computer Science
+CS401,Advanced Topics in Computer Science
+CS402,Research Methods in Computer Science
+CS101,Introduction to Computer Science
+CS102,Essentials of Computer Science
+CS201,Intermediate Computer Science
+CS202,Methods in Computer Science
+CS301,Topics in Computer Science
+CS302,Advanced Computer Science
+CS401,Capstone in Computer Science
+CS402,Graduate Seminar in Computer Science
+CS101,Fundamentals of Computer Science
+CS102,Elements of Computer Science
+CS201,Intermediate Computer Science
+CS202,Applications of Computer Science
+CS301,Advanced Computer Science
+CS302,Seminar in Computer Science
+CS401,Senior Seminar in Computer Science
+CS402,Graduate Seminar in Computer Science
+CS101,Fundamentals of Computer Science
+MATH101,Introduction to Mathematics
+MATH102,Essentials of Mathematics
+MATH201,Core Concepts in Mathematics
+MATH202,Methods in Mathematics
+MATH301,Special Topics in Mathematics
+MATH302,Advanced Mathematics
+MATH401,Capstone in Mathematics
+MATH402,Graduate Seminar in Mathematics
+MATH101,Basics of Mathematics
+MATH102,Introduction to Mathematics
+MATH201,Core Concepts in Mathematics
+MATH202,Methods in Mathematics
+MATH301,Special Topics in Mathematics
+MATH302,Research in Mathematics
+MATH401,Senior Seminar in Mathematics
+MATH402,Research Methods in Mathematics
+MATH101,Basics of Mathematics
+MATH102,Introduction to Mathematics
+MATH201,Advanced Introduction to Mathematics
+MATH202,Intermediate Mathematics
+PHYS101,Principles of Physics
+PHYS102,Essentials of Physics
+PHYS201,Core Concepts in Physics
+PHYS202,Intermediate Physics
+PHYS301,Advanced Physics
+PHYS302,Research in Physics
+PHYS401,Advanced Topics in Physics
+PHYS402,Graduate Seminar in Physics
+PHYS101,Basics of Physics
+PHYS102,Introduction to Physics
+PHYS201,Core Concepts in Physics
+PHYS202,Methods in Physics
+PHYS301,Special Topics in Physics
+PHYS302,Research in Physics
+PHYS401,Advanced Topics in Physics
+CHEM101,Basics of Chemistry
+CHEM102,Introduction to Chemistry
+CHEM201,Core Concepts in Chemistry
+CHEM202,Intermediate Chemistry
+CHEM301,Topics in Chemistry
+CHEM302,Seminar in Chemistry
+CHEM401,Advanced Topics in Chemistry
+CHEM402,Graduate Seminar in Chemistry
+CHEM101,Basics of Chemistry
+CHEM102,Essentials of Chemistry
+CHEM201,Advanced Introduction to Chemistry
+CHEM202,Methods in Chemistry
+CHEM301,Special Topics in Chemistry
+CHEM302,Advanced Chemistry
+CHEM401,Senior Seminar in Chemistry
+BIO101,Fundamentals of Biology
+BIO102,Introduction to Biology
+BIO201,Advanced Introduction to Biology
+BIO202,Applications of Biology
+BIO301,Special Topics in Biology
+BIO302,Seminar in Biology
+BIO401,Capstone in Biology
+BIO402,Advanced Study in Biology
+BIO101,Introduction to Biology
+BIO102,Essentials of Biology
+BIO201,Core Concepts in Biology
+BIO202,Methods in Biology
+BIO301,Special Topics in Biology
+BIO302,Seminar in Biology
+BIO401,Advanced Topics in Biology
+ENG101,Introduction to English
+ENG102,Elements of English
+ENG201,Intermediate English
+ENG202,Applications of English
+ENG301,Topics in English
+ENG302,Seminar in English
+ENG401,Capstone in English
+ENG402,Advanced Study in English
+ENG101,Fundamentals of English
+ENG102,Elements of English
+ENG201,Advanced Introduction to English
+ENG202,Applications of English
+ENG301,Special Topics in English
+ENG302,Advanced English
+ENG401,Senior Seminar in English
+ENG402,Research Methods in English
+ENG101,Principles of English
+ENG102,Essentials of English
+ENG201,Intermediate English
+ENG202,Applications of English
+HIST101,Introduction to History
+HIST102,Essentials of History
+HIST201,Intermediate History
+HIST202,Applications of History
+HIST301,Advanced History
+HIST302,Research in History
+HIST401,Advanced Topics in History
+HIST402,Graduate Seminar in History
+HIST101,Principles of History
+HIST102,Essentials of History
+HIST201,Advanced Introduction to History
+HIST202,Methods in History
+HIST301,Special Topics in History
+HIST302,Advanced History
+HIST401,Senior Seminar in History
+ECON101,Principles of Economics
+ECON102,Introduction to Economics
+ECON201,Intermediate Economics
+ECON202,Intermediate Economics
+ECON301,Topics in Economics
+ECON302,Seminar in Economics
+ECON401,Advanced Topics in Economics
+ECON402,Graduate Seminar in Economics
+ECON101,Principles of Economics
+ECON102,Elements of Economics
+ECON201,Advanced Introduction to Economics
+ECON202,Methods in Economics
+ECON301,Special Topics in Economics
+ECON302,Advanced Economics
+ECON401,Capstone in Economics
+PSYC101,Basics of Psychology
+PSYC102,Elements of Psychology
+PSYC201,Core Concepts in Psychology
+PSYC202,Applications of Psychology
+PSYC301,Special Topics in Psychology
+PSYC302,Research in Psychology
+PSYC401,Senior Seminar in Psychology
+PSYC402,Advanced Study in Psychology
+PSYC101,Fundamentals of Psychology
+PSYC102,Introduction to Psychology
+PSYC201,Core Concepts in Psychology
+PSYC202,Intermediate Psychology
+PSYC301,Topics in Psychology
+PSYC302,Research in Psychology
+PSYC401,Advanced Topics in Psychology
+SOC101,Fundamentals of Sociology
+SOC102,Elements of Sociology
+SOC201,Advanced Introduction to Sociology
+SOC202,Intermediate Sociology
+SOC301,Topics in Sociology
+SOC302,Research in Sociology
+SOC401,Advanced Topics in Sociology
+SOC402,Graduate Seminar in Sociology
+SOC101,Introduction to Sociology
+SOC102,Introduction to Sociology
+ART101,Basics of Art
+ART102,Essentials of Art
+ART201,Core Concepts in Art
+ART202,Intermediate Art
+ART301,Special Topics in Art
+ART302,Research in Art
+ART401,Capstone in Art
+ART402,Advanced Study in Art
+ART101,Fundamentals of Art
+ART102,Essentials of Art
+MUS101,Basics of Music
+MUS102,Introduction to Music
+MUS201,Advanced Introduction to Music
+MUS202,Methods in Music
+MUS301,Advanced Music
+MUS302,Seminar in Music
+MUS401,Advanced Topics in Music
+MUS402,Research Methods in Music
+MUS101,Basics of Music
+MUS102,Essentials of Music
+PE101,Basics of Physical Education
+PE102,Elements of Physical Education
+PE201,Core Concepts in Physical Education
+PE202,Applications of Physical Education
+PE301,Special Topics in Physical Education
+PE302,Advanced Physical Education
+PE401,Capstone in Physical Education
+PE402,Advanced Study in Physical Education
+PE101,Introduction to Physical Education
+PE102,Essentials of Physical Education
+PE201,Core Concepts in Physical Education
+PE202,Methods in Physical Education
+PE301,Special Topics in Physical Education
+PE302,Seminar in Physical Education
+PE401,Capstone in Physical Education
