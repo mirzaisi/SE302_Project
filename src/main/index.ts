@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { initDatabase, getDatabase, closeDatabase } from './database'
 
 function createWindow(): void {
   // Create the browser window.
@@ -39,6 +40,9 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  // Initialize the database
+  initDatabase()
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -51,6 +55,25 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // Database IPC handlers
+  ipcMain.handle('db:query', (_event, sql: string, params: unknown[]) => {
+    const db = getDatabase()
+    const stmt = db.prepare(sql)
+    return stmt.all(...params)
+  })
+
+  ipcMain.handle('db:run', (_event, sql: string, params: unknown[]) => {
+    const db = getDatabase()
+    const stmt = db.prepare(sql)
+    return stmt.run(...params)
+  })
+
+  ipcMain.handle('db:get', (_event, sql: string, params: unknown[]) => {
+    const db = getDatabase()
+    const stmt = db.prepare(sql)
+    return stmt.get(...params)
+  })
 
   createWindow()
 
@@ -65,6 +88,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  closeDatabase()
   if (process.platform !== 'darwin') {
     app.quit()
   }
