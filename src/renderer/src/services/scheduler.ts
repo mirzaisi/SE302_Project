@@ -112,7 +112,7 @@ export async function generateSchedule(
   let consecutiveViolations = 0
   let threePerDayViolations = 0
   let capacityViolations = 0
-  
+
   // Helper: Get day with least exams (for balance)
   const getDayWithLeastExams = (): number => {
     const dayCount = new Map<number, number>()

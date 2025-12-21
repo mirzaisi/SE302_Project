@@ -200,12 +200,29 @@ export function Configuration() {
   }
 
   const generateDefaultTimeSlots = async (numDays: number, slotsPerDay: number): Promise<void> => {
-    const defaultTimes = [
-      { start: '09:00', end: '11:00' },
-      { start: '11:30', end: '13:30' },
-      { start: '14:00', end: '16:00' },
-      { start: '16:30', end: '18:30' }
-    ]
+    // Generate 1.5-hour (90 min) slots starting at 09:00
+    const defaultTimes: Array<{ start: string; end: string }> = []
+    let startHour = 9
+    let startMinute = 0
+
+    for (let i = 0; i < Math.max(slotsPerDay, 8); i++) {
+      const startTime = `${String(startHour).padStart(2, '0')}:${String(startMinute).padStart(2, '0')}`
+
+      // Add 1.5 hours (90 minutes)
+      let endMinute = startMinute + 30
+      let endHour = startHour + 1
+      if (endMinute >= 60) {
+        endMinute -= 60
+        endHour += 1
+      }
+      const endTime = `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`
+
+      defaultTimes.push({ start: startTime, end: endTime })
+
+      // Move to next slot (end time becomes next start time)
+      startHour = endHour
+      startMinute = endMinute
+    }
 
     // First, clear all existing time slots
     await window.api.db.run('DELETE FROM time_slots', [])
