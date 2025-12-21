@@ -23,10 +23,10 @@ export function Layout({ children }: LayoutProps): React.ReactNode {
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Top Navigation - Fixed height */}
       <nav className="flex-shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
-        <div className="px-4 py-2">
+        <div className="px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <img src={logoImage} alt="ExamFlow Logo" className="h-10 w-auto object-contain" />
+            <div className="flex items-center space-x-5">
+              <img src={logoImage} alt="ExamFlow Logo" className="h-12 w-auto object-contain" />
               <div>
                 <div className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
                   ExamFlow
@@ -36,7 +36,7 @@ export function Layout({ children }: LayoutProps): React.ReactNode {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-5">
               {navItems.map((item) => {
                 const Icon = item.icon
                 const isActive = location.pathname === item.path
@@ -45,7 +45,7 @@ export function Layout({ children }: LayoutProps): React.ReactNode {
                     <Button
                       size="sm"
                       className={`
-                        transition-all duration-200 flex items-center gap-1.5 text-sm
+                        transition-all duration-200 flex items-center gap-2.5 text-sm px-4 py-2.5
                         ${
                           isActive
                             ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/25'

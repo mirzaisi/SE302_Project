@@ -2,7 +2,6 @@ appId: com.examflow.app
 productName: ExamFlow
 directories:
   buildResources: build
-icon: build/icon.png
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -14,7 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: ExamFlow
-  icon: build/icon.png
+  icon: build/icon.ico
   signAndEditExecutable: false
   sign: null
 nsis:
