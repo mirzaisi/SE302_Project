@@ -43,7 +43,7 @@ export function ScheduleGeneration(): React.ReactNode {
       console.error('Failed to load stats:', error)
     }
   }
-  
+
   const handleGenerate = async (): Promise<void> => {
     setGenerating(true)
     setMessage('')
@@ -137,13 +137,14 @@ export function ScheduleGeneration(): React.ReactNode {
         }
       })
 
-      // Save schedule to database
+      // Save schedule to database (including detailed violations as JSON)
       await window.api.db.run(
-        'INSERT INTO schedules (name, is_feasible, total_violations) VALUES (?, ?, ?)',
+        'INSERT INTO schedules (name, is_feasible, total_violations, violations_json) VALUES (?, ?, ?, ?)',
         [
           scheduleName,
           result.is_feasible ? 1 : 0,
-          result.violations.reduce((sum, v) => sum + v.count, 0)
+          result.violations.reduce((sum, v) => sum + v.count, 0),
+          JSON.stringify(result.violations)
         ]
       )
 

@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: se302-project
+appId: com.examflow.app
+productName: ExamFlow
 directories:
   buildResources: build
 files:
@@ -11,8 +11,10 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+icon: resources/icon.png
 win:
-  executableName: se302-project
+  executableName: ExamFlow
+  icon: resources/icon.png
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

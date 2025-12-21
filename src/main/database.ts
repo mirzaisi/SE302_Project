@@ -128,9 +128,17 @@ function createTables(): void {
       name TEXT NOT NULL,
       is_feasible BOOLEAN DEFAULT 1,
       total_violations INTEGER DEFAULT 0,
+      violations_json TEXT DEFAULT '[]',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `)
+
+  // Add violations_json column if it doesn't exist (migration for existing databases)
+  try {
+    db.exec(`ALTER TABLE schedules ADD COLUMN violations_json TEXT DEFAULT '[]'`)
+  } catch {
+    // Column already exists, ignore
+  }
 
   // Create schedule_assignments table
   db.exec(`

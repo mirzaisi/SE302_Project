@@ -1,16 +1,28 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
+  // Get the primary display's work area (excludes taskbar)
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize
+
+  // Calculate window size as 85% of screen, with reasonable limits
+  const windowWidth = Math.min(Math.max(Math.floor(screenWidth * 0.85), 1024), 1600)
+  const windowHeight = Math.min(Math.max(Math.floor(screenHeight * 0.85), 700), 1000)
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: windowWidth,
+    height: windowHeight,
+    minWidth: 1024,
+    minHeight: 700,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    title: 'ExamFlow',
+    center: true,
+    icon: icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
