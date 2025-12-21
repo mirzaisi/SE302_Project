@@ -1,17 +1,8 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {
-  db: {
-    query: (sql: string, params: unknown[]): Promise<unknown[]> =>
-      ipcRenderer.invoke('db:query', sql, params),
-    run: (sql: string, params: unknown[]): Promise<unknown> =>
-      ipcRenderer.invoke('db:run', sql, params),
-    get: (sql: string, params: unknown[]): Promise<unknown> =>
-      ipcRenderer.invoke('db:get', sql, params)
-  }
-}
+const api = {}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
