@@ -74,24 +74,6 @@ We built this as part of our SE 302 Software Engineering course project to solve
 
 ---
 
-## 🖥️ Screenshots
-
-The app has a clean, modern interface with six main sections:
-
-| Dashboard | Data Management |
-|:---------:|:---------------:|
-| Quick overview of your data stats | Import/view/manage all your data |
-
-| Configuration | Schedule Generation |
-|:-------------:|:-------------------:|
-| Set constraints, time slots, and optimization goals | Generate schedules with real-time feedback |
-
-| Schedule View | Help |
-|:-------------:|:----:|
-| Analyze schedules by room, day, or violations | CSV format guides and documentation |
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
