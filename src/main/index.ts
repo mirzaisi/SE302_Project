@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { initDatabase, getDatabase, closeDatabase } from './database'
 
 function createWindow(): void {
   // Create the browser window.
@@ -49,8 +50,45 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // Initialize database
+  initDatabase()
+
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // Database IPC handlers
+  ipcMain.handle('db:query', async (_event, sql: string, params?: any[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      return stmt.all(params || [])
+    } catch (error: any) {
+      console.error('Database query error:', error)
+      throw error
+    }
+  })
+
+  ipcMain.handle('db:run', async (_event, sql: string, params?: any[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      return stmt.run(params || [])
+    } catch (error: any) {
+      console.error('Database run error:', error)
+      throw error
+    }
+  })
+
+  ipcMain.handle('db:get', async (_event, sql: string, params?: any[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      return stmt.get(params || [])
+    } catch (error: any) {
+      console.error('Database get error:', error)
+      throw error
+    }
+  })
 
   createWindow()
 
@@ -68,6 +106,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+// Close database when app quits
+app.on('before-quit', () => {
+  closeDatabase()
 })
 
 // In this file you can include the rest of your app's specific main process
