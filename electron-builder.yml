@@ -2,6 +2,7 @@ appId: com.examflow.app
 productName: ExamFlow
 directories:
   buildResources: build
+icon: build/icon.png
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -11,10 +12,9 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
-icon: resources/icon.png
 win:
   executableName: ExamFlow
-  icon: resources/icon.png
+  icon: build/icon.png
   signAndEditExecutable: false
   sign: null
 nsis:
@@ -22,7 +22,11 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
 mac:
+  icon: build/icon.icns
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
@@ -39,6 +43,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
+  icon: build/icon.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

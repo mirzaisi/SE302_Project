@@ -11,7 +11,11 @@ import {
   Calendar,
   Users,
   Building2,
-  BarChart3
+  BarChart3,
+  Download,
+  Upload,
+  PlayCircle,
+  Eye
 } from 'lucide-react'
 
 export function Help(): React.ReactNode {
@@ -221,6 +225,75 @@ export function Help(): React.ReactNode {
       </Card>
 
       {/* Relaxations Explained */}
+            {/* How to Use Each Tab */}
+            <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <Info className="h-5 w-5 text-indigo-600" />
+                <h2 className="text-xl font-bold text-gray-800">What each tab does</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700">
+                {[
+                  { title: 'Dashboard', desc: 'Shows counts of classrooms, courses, students, schedules.' },
+                  { title: 'Data', desc: 'Import CSVs or add/edit/delete classrooms, courses, students, enrollments.' },
+                  { title: 'Config', desc: 'Set exam days, time slots, optimization goals, relaxations.' },
+                  { title: 'Generate', desc: 'Run the scheduler. If data is missing, a warning appears.' },
+                  { title: 'View', desc: 'Inspect schedules by day, course, or classroom. Filter and export CSV/PDF.' },
+                  { title: 'Help', desc: 'You are here. Use these guides and examples for quick onboarding.' }
+                ].map((item) => (
+                  <div key={item.title} className="p-3 rounded-lg bg-gray-50 border border-gray-100">
+                    <div className="font-semibold text-gray-800">{item.title}</div>
+                    <div className="text-gray-600">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Common Tasks */}
+            <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <PlayCircle className="h-5 w-5 text-blue-600" />
+                <h2 className="text-xl font-bold text-gray-800">Do these in order</h2>
+              </div>
+              <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                <li>Open Data → import classrooms, courses, students, enrollments (CSV samples above).</li>
+                <li>Open Config → set number of days, slots, and (optional) custom times.</li>
+                <li>Still in Config → set optimization goals and relaxations.</li>
+                <li>Go to Generate → click Generate Schedule. If anything is missing, fix and retry.</li>
+                <li>Go to View → pick a schedule, filter by day/course/room, and check violations.</li>
+                <li>Export → use Export CSV/PDF buttons in View (choose the view you want to export).</li>
+              </ol>
+            </Card>
+
+            {/* Export & File Tips */}
+            <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <Download className="h-5 w-5 text-green-600" />
+                <h2 className="text-xl font-bold text-gray-800">Exporting schedules</h2>
+              </div>
+              <div className="space-y-3 text-sm text-gray-700">
+                <div className="flex items-start gap-2">
+                  <Upload className="h-4 w-4 text-blue-600 mt-1" />
+                  <div>
+                    <div className="font-semibold text-gray-800">CSV export</div>
+                    <div>Ideal for spreadsheets. Includes course, room, day/slot, times, counts, and violations.</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <FileText className="h-4 w-4 text-purple-600 mt-1" />
+                  <div>
+                    <div className="font-semibold text-gray-800">PDF export</div>
+                    <div>Select the view (Day / Course / Classroom) before exporting for the layout you want.</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Eye className="h-4 w-4 text-gray-600 mt-1" />
+                  <div>
+                    <div className="font-semibold text-gray-800">Violations</div>
+                    <div>Rows with conflicts or capacity overflows show a violation note. Filter “Violations only” in View.</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
       <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
         <div className="flex items-center gap-2 mb-4">
           <Lightbulb className="h-5 w-5 text-purple-600" />

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from '@renderer/components/layout/Layout'
 import { Dashboard } from '@renderer/pages/Dashboard'
 import { DataManagement } from '@renderer/pages/DataManagement'
@@ -9,7 +9,7 @@ import { Help } from '@renderer/pages/Help'
 
 function App(): React.JSX.Element {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -20,7 +20,7 @@ function App(): React.JSX.Element {
           <Route path="/help" element={<Help />} />
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

@@ -1,6 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { initDatabase, getDatabase, closeDatabase } from './database'
+import * as fs from 'fs'
+import * as path from 'path'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
@@ -47,12 +50,180 @@ function createWindow(): void {
   }
 }
 
+// Setup IPC handlers for database operations
+function setupIpcHandlers(): void {
+  // Database query handler
+  ipcMain.handle('db:query', async (_event, sql: string, params: unknown[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      return stmt.all(...params)
+    } catch (error) {
+      console.error('Database query error:', error)
+      throw error
+    }
+  })
+
+  // Database run handler (for INSERT, UPDATE, DELETE)
+  ipcMain.handle('db:run', async (_event, sql: string, params: unknown[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      const result = stmt.run(...params)
+      return { changes: result.changes, lastInsertRowid: result.lastInsertRowid }
+    } catch (error) {
+      console.error('Database run error:', error)
+      throw error
+    }
+  })
+
+  // Database get handler (for single row)
+  ipcMain.handle('db:get', async (_event, sql: string, params: unknown[]) => {
+    try {
+      const db = getDatabase()
+      const stmt = db.prepare(sql)
+      return stmt.get(...params)
+    } catch (error) {
+      console.error('Database get error:', error)
+      throw error
+    }
+  })
+
+  // File selection dialog
+  ipcMain.handle('files:selectFile', async () => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'CSV Files', extensions: ['csv'] }]
+    })
+    return result
+  })
+
+  // Read file content
+  ipcMain.handle('files:readFile', async (_event, filePath: string) => {
+    try {
+      return fs.readFileSync(filePath, 'utf-8')
+    } catch (error) {
+      console.error('File read error:', error)
+      throw error
+    }
+  })
+
+  // Export to Excel (CSV format for simplicity)
+  ipcMain.handle(
+    'files:exportExcel',
+    async (_event, data: unknown[][], filename: string) => {
+      try {
+        const result = await dialog.showSaveDialog({
+          defaultPath: filename,
+          filters: [{ name: 'CSV Files', extensions: ['csv'] }]
+        })
+
+        if (result.canceled || !result.filePath) {
+          return { success: false }
+        }
+
+        // Convert data to CSV
+        const csv = data.map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n')
+        fs.writeFileSync(result.filePath, csv, 'utf-8')
+
+        return { success: true, path: result.filePath }
+      } catch (error) {
+        console.error('Export error:', error)
+        return { success: false, error: String(error) }
+      }
+    }
+  )
+
+  // Export to PDF (using HTML approach)
+  ipcMain.handle(
+    'files:exportPDF',
+    async (_event, data: unknown[][], filename: string, title?: string) => {
+      try {
+        const result = await dialog.showSaveDialog({
+          defaultPath: filename.replace('.xlsx', '.pdf'),
+          filters: [{ name: 'PDF Files', extensions: ['pdf'] }]
+        })
+
+        if (result.canceled || !result.filePath) {
+          return { success: false }
+        }
+
+        // Create a hidden window to render the PDF
+        const pdfWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          show: false,
+          webPreferences: {
+            nodeIntegration: true
+          }
+        })
+
+        // Create HTML content for the PDF
+        const tableRows = data
+          .map(
+            (row, index) =>
+              `<tr style="${index === 0 ? 'background-color: #f0f0f0; font-weight: bold;' : ''}">
+            ${row.map((cell) => `<td style="border: 1px solid #ddd; padding: 8px;">${cell}</td>`).join('')}
+          </tr>`
+          )
+          .join('')
+
+        const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; }
+              h1 { color: #333; text-align: center; }
+              table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+              td { text-align: left; }
+            </style>
+          </head>
+          <body>
+            <h1>${title || 'ExamFlow Schedule Export'}</h1>
+            <table>${tableRows}</table>
+          </body>
+        </html>
+      `
+
+        const tempHtmlPath = path.join(app.getPath('temp'), 'examflow-export.html')
+        fs.writeFileSync(tempHtmlPath, htmlContent)
+
+        await pdfWindow.loadFile(tempHtmlPath)
+
+        const pdfData = await pdfWindow.webContents.printToPDF({
+          pageSize: 'A4',
+          printBackground: true,
+          landscape: true
+        })
+
+        fs.writeFileSync(result.filePath, pdfData)
+        pdfWindow.close()
+
+        // Clean up temp file
+        fs.unlinkSync(tempHtmlPath)
+
+        return { success: true, path: result.filePath }
+      } catch (error) {
+        console.error('PDF export error:', error)
+        return { success: false, error: String(error) }
+      }
+    }
+  )
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.examflow.app')
+
+  // Initialize database
+  initDatabase()
+
+  // Setup IPC handlers
+  setupIpcHandlers()
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -78,9 +249,12 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    closeDatabase()
     app.quit()
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// Close database on app quit
+app.on('before-quit', () => {
+  closeDatabase()
+})

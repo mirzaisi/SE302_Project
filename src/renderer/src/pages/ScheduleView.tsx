@@ -16,7 +16,9 @@ import {
   BarChart3,
   Clock,
   Info,
-  HelpCircle
+  HelpCircle,
+  FileDown,
+  FileText
 } from 'lucide-react'
 
 interface Schedule {
@@ -91,6 +93,78 @@ export function ScheduleView(): React.ReactNode {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterDay, setFilterDay] = useState<number | null>(null)
   const [showOnlyViolations, setShowOnlyViolations] = useState(false)
+  const [exportViewMode, setExportViewMode] = useState<'current' | 'day' | 'course' | 'classroom'>(
+    'current'
+  )
+
+  const activeSchedule = schedules.find((s) => s.id === selectedScheduleId)
+
+  const buildExportData = (targetView?: 'day' | 'course' | 'classroom'): unknown[][] => {
+    const view = targetView || (exportViewMode === 'current' ? viewMode : exportViewMode)
+
+    const header = [
+      'Course Code',
+      'Course Name',
+      'Room',
+      'Day',
+      'Slot',
+      'Start',
+      'End',
+      'Students',
+      'Capacity',
+      'Violation'
+    ]
+
+    const sorter = (a: ScheduleAssignment, b: ScheduleAssignment): number => {
+      if (view === 'course') return a.course_code.localeCompare(b.course_code)
+      if (view === 'classroom') return a.classroom_name.localeCompare(b.classroom_name)
+      // default/day ordering
+      if (a.day_number === b.day_number) return a.slot_number - b.slot_number
+      return a.day_number - b.day_number
+    }
+
+    const rows = [...scheduleData].sort(sorter).map((item) => {
+      const violation = hasViolation(item)
+        ? item.violation_type || (item.student_count && item.capacity && item.student_count > item.capacity
+            ? `Capacity overflow (${item.student_count}/${item.capacity})`
+            : 'Violation')
+        : ''
+
+      return [
+        item.course_code,
+        item.course_name,
+        item.classroom_name,
+        `Day ${item.day_number}`,
+        item.slot_name || `Slot ${item.slot_number}`,
+        item.start_time || '',
+        item.end_time || '',
+        item.student_count ?? '',
+        item.capacity ?? '',
+        violation
+      ]
+    })
+
+    return [header, ...rows]
+  }
+
+  const handleExportExcel = async (): Promise<void> => {
+    if (!selectedScheduleId || scheduleData.length === 0) return
+    const name = activeSchedule?.name || 'schedule'
+    const data = buildExportData()
+    await window.api.files.exportExcel(data, `${name}-${viewMode}.csv`)
+  }
+
+  const handleExportPDF = async (): Promise<void> => {
+    if (!selectedScheduleId || scheduleData.length === 0) return
+    const name = activeSchedule?.name || 'schedule'
+    const data = buildExportData()
+    const targetView = exportViewMode === 'current' ? viewMode : exportViewMode
+    await window.api.files.exportPDF(
+      data,
+      `${name}-${targetView}.pdf`,
+      `${name} — ${targetView} view`
+    )
+  }
 
   useEffect(() => {
     const load = async (): Promise<void> => {
@@ -381,6 +455,41 @@ export function ScheduleView(): React.ReactNode {
                   </option>
                 ))}
               </select>
+
+              <div className="mt-4 flex flex-wrap gap-3 items-center">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span className="font-medium">Export view:</span>
+                  <select
+                    value={exportViewMode}
+                    onChange={(e) => setExportViewMode(e.target.value as typeof exportViewMode)}
+                    className="px-2 py-1 border border-gray-200 rounded-lg bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="current">Current</option>
+                    <option value="day">Day view</option>
+                    <option value="course">Course view</option>
+                    <option value="classroom">Classroom view</option>
+                  </select>
+                </div>
+
+                <Button
+                  size="sm"
+                  className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm hover:from-blue-700 hover:to-indigo-700"
+                  onClick={handleExportExcel}
+                  disabled={!selectedScheduleId || scheduleData.length === 0}
+                >
+                  <FileDown className="h-4 w-4" />
+                  Export CSV
+                </Button>
+                <Button
+                  size="sm"
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm hover:from-purple-700 hover:to-pink-700"
+                  onClick={handleExportPDF}
+                  disabled={!selectedScheduleId || scheduleData.length === 0}
+                >
+                  <FileText className="h-4 w-4" />
+                  Export PDF
+                </Button>
+              </div>
             </Card>
 
             {/* Quick Status */}
