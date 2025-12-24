@@ -208,6 +208,15 @@ The algorithm prioritizes hard constraints (no same-time conflicts) while tracki
 
 ---
 
+## Screenshots From the App
+<img width="1612" height="828" alt="Screenshot 2025-12-24 103959" src="https://github.com/user-attachments/assets/27929fba-ab87-4e2a-9baa-191118b35506" />
+<img width="1618" height="837" alt="Screenshot 2025-12-24 104009" src="https://github.com/user-attachments/assets/e993d93a-1515-4999-9964-fbae0cb3fcda" />
+<img width="1615" height="836" alt="Screenshot 2025-12-24 104019" src="https://github.com/user-attachments/assets/47ee631f-6078-45e7-a6c9-7ab8cd00d05a" />
+<img width="1612" height="836" alt="Screenshot 2025-12-24 104036" src="https://github.com/user-attachments/assets/bb76bf1d-0035-4e78-9330-794801a9eed5" />
+<img width="1615" height="836" alt="Screenshot 2025-12-24 104045" src="https://github.com/user-attachments/assets/e5e2094c-26f4-4bdf-a72d-31c92612ba26" />
+<img width="1617" height="692" alt="Screenshot 2025-12-24 104057" src="https://github.com/user-attachments/assets/100abc31-17a1-4007-b853-6a1e89162d5c" />
+
+
 ## 🤝 Contributing
 
 We're not actively maintaining this as it was a course project, but feel free to fork it and make it your own. If you do something cool with it, we'd love to hear about it!
