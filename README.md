@@ -14,7 +14,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
-  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg" alt="Platform">
+  <img src="https://img.shields.io/badge/platform-Windows-lightgrey.svg" alt="Platform">
   <img src="https://img.shields.io/badge/electron-38+-47848F.svg" alt="Electron">
   <img src="https://img.shields.io/badge/react-19-61DAFB.svg" alt="React">
   <img src="https://img.shields.io/badge/typescript-5.9-3178C6.svg" alt="TypeScript">
