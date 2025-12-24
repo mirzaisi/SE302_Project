@@ -236,7 +236,3 @@ Feel free to use, modify, and distribute this code for educational or personal p
 Built with ☕ and late nights by our SE 302 project team.
 
 ---
-
-<p align="center">
-  <sub>If this helped you or your institution manage exam scheduling, give it a ⭐</sub>
-</p>
